@@ -40,7 +40,15 @@ example (p q r s : Prop) (h : p → r) (h' : q → s) : p ∧ q → r ∧ s := b
 /- You can choose your own style in the next exercise. -/
 
 example (p q r : Prop) : (p → (q → r)) ↔ p ∧ q → r := by {
-  sorry
+  constructor
+  · intro h h'
+    rcases h' with ⟨hp, hq⟩
+    exact h hp hq
+  · intro h hp hq
+    apply h
+    constructor
+    · exact hp
+    · exact hq
 }
 
 /- Of course Lean doesn't need any help to prove this kind of logical tautologies.

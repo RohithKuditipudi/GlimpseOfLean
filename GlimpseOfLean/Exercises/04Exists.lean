@@ -93,7 +93,13 @@ By definition, `a ∣ b ↔ ∃ k, b = a*k`, so you can prove `a ∣ b` using th
 -/
 
 example (a b c : ℤ) (h₁ : a ∣ b) (h₂ : b ∣ c) : a ∣ c := by {
-  sorry
+  rcases h₁ with ⟨k1,h1⟩
+  rcases h₂ with ⟨k2,h2⟩
+  use k1*k2
+  calc
+    c = b * k2 := by exact h2
+    _ = a * k1 * k2 := by rw [h1]
+    _ = a * (k1 * k2) := by ring
 }
 
 
@@ -104,7 +110,10 @@ We can now start combining quantifiers, using the definition
 -/
 
 example (f g : ℝ → ℝ) (h : Surjective (g ∘ f)) : Surjective g := by {
-  sorry
+  intro y
+  rcases h y with ⟨ky, hy⟩
+  use f ky
+  exact hy
 }
 
 /- This is the end of this file about `∃` and `∧`. You've learned about tactics
